@@ -23,32 +23,33 @@ public class Oaths {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public Oaths() {
-        // Register the common setup method
+        // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        // Register the IMC methods
+        // Register the enqueueIMC method for intermod communication
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+        // Register the processIMC method for received intermod communications
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 
-        // Register the item registration
+        // Register the items (and other stuff) to the mod event bus
         ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
-        // Register for server and other game events
+        // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        // Some pre-initialization code
-        LOGGER.info("HELLO FROM PREINIT");
+        // Pre-initialization code
+        LOGGER.info("Setup method registered.");
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
-        // Example code to dispatch IMC to another mod
+        // Send IMC to other mods
         InterModComms.sendTo("oaths", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world"; });
     }
 
     private void processIMC(final InterModProcessEvent event) {
-        // Example code to receive and process IMC from other mods
-        LOGGER.info("Got IMC {}", event.getIMCStream()
+        // Receive and process IMC from other mods
+        LOGGER.info("Received IMC: {}", event.getIMCStream()
                 .map(m -> m.messageSupplier().get())
                 .collect(Collectors.toList()));
     }
@@ -56,15 +57,15 @@ public class Oaths {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
+        LOGGER.info("Server is starting!");
     }
 
     @Mod.EventBusSubscriber(modid = Oaths.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
         @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> event) {
-            // Register a new block here if needed
-            LOGGER.info("HELLO from Register Block");
+            // Register new blocks here if necessary
+            LOGGER.info("Registering blocks");
         }
     }
 }
