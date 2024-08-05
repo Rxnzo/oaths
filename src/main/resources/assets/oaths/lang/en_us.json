@@ -1,5 +1,11 @@
 {
   "itemGroup.oathstab": "Oaths",
   "item.oaths.flameheart_capsule": "Flameheart Capsule",
-  "item.oaths.flameheart": "Flameheart"
+  "item.oaths.flameheart": "Flameheart",
+  "item.oaths.container": "Container",
+  "item.oaths.stormcore": "Stormcore",
+  "item.oaths.frostgem_fragment": "Frostgem Fragment",
+  "item.oaths.frostgem": "Frostgem",
+  "item.oaths.stone_shard": "Stone Shard",
+  "item.oaths.lightstone": "Lightstone"
 }

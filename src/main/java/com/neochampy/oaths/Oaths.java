@@ -2,13 +2,16 @@ package com.neochampy.oaths;
 
 import com.mojang.logging.LogUtils;
 import com.neochampy.oaths.items.ModItems;
-import net.minecraft.world.level.block.Block;
+import com.neochampy.oaths.items.FlameheartCapsule;
+import com.neochampy.oaths.items.Container;
+import com.neochampy.oaths.items.FrostgemFragment;
+import com.neochampy.oaths.items.StoneShard;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
@@ -25,16 +28,19 @@ public class Oaths {
     public Oaths() {
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        // Register the enqueueIMC method for intermod communication
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        // Register the processIMC method for received intermod communications
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
-        // Register the items (and other stuff) to the mod event bus
+        // Register the items to the mod event bus
         ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        // Register event handlers for item transformations
+        MinecraftForge.EVENT_BUS.register(FlameheartCapsule.class);
+        MinecraftForge.EVENT_BUS.register(Container.class);
+        MinecraftForge.EVENT_BUS.register(FrostgemFragment.class);
+        MinecraftForge.EVENT_BUS.register(StoneShard.class);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -42,9 +48,16 @@ public class Oaths {
         LOGGER.info("Setup method registered.");
     }
 
+    private void doClientStuff(final FMLClientSetupEvent event) {
+        // Client-side setup code
+    }
+
     private void enqueueIMC(final InterModEnqueueEvent event) {
         // Send IMC to other mods
-        InterModComms.sendTo("oaths", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world"; });
+        InterModComms.sendTo("oaths", "helloworld", () -> {
+            LOGGER.info("Hello world from the MDK");
+            return "Hello world";
+        });
     }
 
     private void processIMC(final InterModProcessEvent event) {
@@ -58,14 +71,5 @@ public class Oaths {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("Server is starting!");
-    }
-
-    @Mod.EventBusSubscriber(modid = Oaths.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents {
-        @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> event) {
-            // Register new blocks here if necessary
-            LOGGER.info("Registering blocks");
-        }
     }
 }

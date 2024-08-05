@@ -1,6 +1,5 @@
 package com.neochampy.oaths.items;
 
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -10,14 +9,25 @@ import com.neochampy.oaths.ModCreativeTab;
 
 public class ModItems {
 
-    // Registering a DeferredRegister for Items
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Oaths.MODID);
 
-    // Registering the Flameheart Capsule Item
+    // Existing items
     public static final RegistryObject<Item> FLAMEHEART_CAPSULE = ITEMS.register("flameheart_capsule",
+            () -> new FlameheartCapsule(new Item.Properties().tab(ModCreativeTab.OATHS_TAB)));
+    public static final RegistryObject<Item> FLAMEHEART = ITEMS.register("flameheart",
             () -> new Item(new Item.Properties().tab(ModCreativeTab.OATHS_TAB)));
 
-    // Registering the Flameheart Item
-    public static final RegistryObject<Item> FLAMEHEART = ITEMS.register("flameheart",
+    // New items
+    public static final RegistryObject<Item> CONTAINER = ITEMS.register("container",
+            () -> new Container(new Item.Properties().tab(ModCreativeTab.OATHS_TAB)));
+    public static final RegistryObject<Item> STORMCORE = ITEMS.register("stormcore",
+            () -> new Item(new Item.Properties().tab(ModCreativeTab.OATHS_TAB)));
+    public static final RegistryObject<Item> FROSTGEM_FRAGMENT = ITEMS.register("frostgem_fragment",
+            () -> new FrostgemFragment(new Item.Properties().tab(ModCreativeTab.OATHS_TAB)));
+    public static final RegistryObject<Item> FROSTGEM = ITEMS.register("frostgem",
+            () -> new Item(new Item.Properties().tab(ModCreativeTab.OATHS_TAB)));
+    public static final RegistryObject<Item> STONE_SHARD = ITEMS.register("stone_shard",
+            () -> new StoneShard(new Item.Properties().tab(ModCreativeTab.OATHS_TAB)));
+    public static final RegistryObject<Item> LIGHTSTONE = ITEMS.register("lightstone",
             () -> new Item(new Item.Properties().tab(ModCreativeTab.OATHS_TAB)));
 }
