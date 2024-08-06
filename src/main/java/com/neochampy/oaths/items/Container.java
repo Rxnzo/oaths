@@ -18,7 +18,8 @@ public class Container extends Item {
     @SubscribeEvent
     public static void onPlayerDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (event.getSource() == DamageSource.LIGHTNING_BOLT) {
+            DamageSource damageSource = player.getLastDamageSource();
+            if (damageSource != null && damageSource == DamageSource.LIGHTNING_BOLT) {
                 for (ItemStack itemStack : player.getInventory().items) {
                     if (itemStack.getItem() == ModItems.CONTAINER.get()) {
                         itemStack.shrink(1); // Remove one container

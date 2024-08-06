@@ -24,7 +24,7 @@ public class StoneShard extends Item {
         if (heldItem.getItem() == ModItems.STONE_SHARD.get()) {
             // Check if the player is at high elevation during sunrise
             if (player.getY() > 200 && world.getDayTime() % 24000L > 23000L && world.getDayTime() % 24000L < 24000L) {
-                heldItem.shrink(1); // Remove one Stone Shard
+                heldItem.shrink(1); // Remove one Stoneshard
                 player.addItem(new ItemStack(ModItems.LIGHTSTONE.get())); // Add Lightstone
             }
         }
